@@ -1,3 +1,4 @@
+//TODO: Optimise to O(n)
 class Solution {
     public String removeKdigits(String num, int k) {
         if (num.length() <= k) {
