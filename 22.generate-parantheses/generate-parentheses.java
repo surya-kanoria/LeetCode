@@ -7,41 +7,27 @@ class Solution {
         if (n <= 0) {
             return null;
         }
-        List<String> list = getParenthesis(n);
-        List<String> newList = new ArrayList<>();
-        for (String combination : list) {
-            if (combination.charAt(0) == '1') {
-                combination = combination.substring(1, combination.length());
-            }
-            newList.add(combination);
-        }
-        return newList;
+        return getGeneratedParentheses(n, 0, 0);
     }
 
-    private List<String> getParenthesis(int n) {
-        if (n == 1) {
-            return Arrays.asList("()");
-        } else if (n == 2) {
-            return Arrays.asList("(())", "1()()");
-        } else {
-            List<String> oldList = getParenthesis(n - 1);
-            ArrayList<String> newList = new ArrayList();
-            for (String combination : oldList) {
-                if (combination.charAt(0) != '1') {
-                    String firstCombo = "(" + combination + ")";
-                    String secondCombo = "()" + combination;
-                    String thirdCombo = combination + "()";
-                    newList.add(firstCombo);
-                    newList.add(secondCombo);
-                    newList.add(thirdCombo);
-                } else {
-                    String firstCombo = "(" + combination.substring(1, combination.length()) + ")";
-                    String secondCombo = combination + "()";
-                    newList.add(firstCombo);
-                    newList.add(secondCombo);
-                }
-            }
-            return newList;
+    private List<String> getGeneratedParentheses(int n, int currentOpen, int currentClose) {
+        List<String> result = new ArrayList<>();
+        if (currentOpen == n && currentClose == currentOpen) {
+            result.add("");
+            return result;
         }
+        if (currentOpen < n) {
+            List<String> openResults = getGeneratedParentheses(n, currentOpen + 1, currentClose);
+            for (String openResult : openResults) {
+                result.add("(" + openResult);
+            }
+        }
+        if (currentClose < currentOpen) {
+            List<String> closeResults = getGeneratedParentheses(n, currentOpen, currentClose + 1);
+            for (String closeResult : closeResults) {
+                result.add(")" + closeResult);
+            }
+        }
+        return result;
     }
 }
