@@ -12,14 +12,14 @@ class Solution {
                 list.add(matrix[row1][i]);
             }
             for (int i = row1 + 1; i <= row2; i++) {
-                list.add(matrix[col2][i]);
+                list.add(matrix[i][col2]);
             }
             if (row1 < row2 && col1 < col2) {
                 for (int i = col2 - 1; i > col1; i--) {
                     list.add(matrix[row2][i]);
                 }
                 for (int i = row2; i > row1; i--) {
-                    list.add(matrix[col1][i]);
+                    list.add(matrix[i][col1]);
                 }
             }
             row1 = row1 + 1;
