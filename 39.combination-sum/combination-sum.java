@@ -1,31 +1,24 @@
-
-import java.util.ArrayList;
-
 class Solution {
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<List<Integer>> solution = new ArrayList<>();
-        for (int i = 0; i < candidates.length; i++) {
-            getCombinationSum(target, i, solution, new ArrayList(), candidates);
+    public int[] productExceptSelf(int[] nums) {
+        if (nums == null || nums.length <= 0) {
+            return new int[0];
         }
-        return solution;
-    }
-
-    private void getCombinationSum(int target, int pos, List<List<Integer>> sol, List<Integer> currentList,
-            int[] candidates) {
-        target = target - candidates[pos];
-        if (target < 0) {
-            return;
-        } else if (target == 0) {
-            currentList.add(candidates[pos]);
-            sol.add(new ArrayList<>(currentList));
-            currentList.remove(currentList.size() - 1);
-            return;
-        } else {
-            currentList.add(candidates[pos]);
-            for (int i = pos; i < candidates.length; i++) {
-                getCombinationSum(target, i, sol, currentList, candidates);
-            }
-            currentList.remove(currentList.size() - 1);
+        int[] right = new int[nums.length];
+        int[] left = new int[nums.length];
+        int[] res = new int[nums.length];
+        int prod = 1;
+        for (int i = 0; i < nums.length; i++) {
+            left[i] = prod;
+            prod = prod * nums[i];
         }
+        prod = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            right[i] = prod;
+            prod = prod * nums[i];
+        }
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = left[i] * right[i];
+        }
+        return res;
     }
 }
