@@ -9,7 +9,7 @@ class Solution {
         return getIsValidBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
     }
 
-    private boolean getIsValidBST(TreeNode node, int lowerBound, int upperBound) {
+    private boolean getIsValidBST(TreeNode node, long lowerBound, long upperBound) {
         if (node == null) {
             return true;
         } else {
