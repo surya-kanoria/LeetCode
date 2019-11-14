@@ -35,5 +35,4 @@ class Solution {
             visit(grid, visited, row, col - 1);
         }
     }
-
 }
