@@ -1,57 +1,42 @@
-import java.util.Scanner;
-import java.util.stream.Stream;
-import java.util.stream.Collectors;
+import java.io.*;
 
-class Solution {
-
-    static Integer[] solution(Integer[] N, int K) {
-        int[] max = new int[K];
-        for (int i = 0; i <= N.length - K; i++) {
-            int[] temp = new int[K];
-            for (int j = 0; j < K; j++) {
-                temp[j] = N[i + j];
+class GFG {
+    static int minimumSquare(int m, int n) 
+    {
+        HashMap<String, Integer> dp = new HashMap<>();
+        return getMinimumSquare(m,n,dp);
+    }
+    
+    static int getMinimumSquare(int m, int n, HashMap<String, Integer> dp) {
+        if(m == n) {
+            return 1;
+        } else if(dp.containsKey(getKey(m,n))) {
+            return dp.get(getKey(m,n));
+        }
+        int min = Math.min(m,n);
+        int max = Math.max(m,n);
+        int minValue = Integer.MAX_VALUE;
+        for(int i = 1; i <= max; i++) {
+            if(min % i == 0 && i <= min) {
+                minValue = Math.min(minValue, (min / i) + getMinimumSquare(min,max - i,dp));
             }
-            if (i == 0) {
-                max = temp;
-            } else {
-                for (int j = 0; j < K; j++) {
-                    if (temp[j] > max[j]) {
-                        max = temp;
-                        break;
-                    } else if (temp[j] == max[j]) {
-                        continue;
-                    } else {
-                        break;
-                    }
-                }
+            if (max % i == 0) {
+                minValue = Math.min(minValue, (max / i) + getMinimumSquare(min - i,max,dp));
             }
         }
-        Integer[] res = new Integer[K];
-        for (int i = 0; i < K; i++) {
-            res[i] = new Integer(max[i]);
-        }
-        return res;
+        
+        dp.put(getKey(m,n),minValue);
     }
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-        Integer[] N = getIntegerArray(in.next());
-        Integer K = Integer.parseInt(in.next());
-        System.out.print(fromIntArray(solution(N, K)));
+    
+    static String getKey(int m, int n) {
+        return m + "*" + n;
     }
-
-    private static Integer[] getIntegerArray(String str) {
-        return Stream.of(str.split("\\,")).map(Integer::valueOf).toArray(Integer[]::new);
-    }
-
-    private static String fromIntArray(Integer[] input) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < input.length; i++) {
-            sb.append(input[i]);
-            if (i < input.length - 1) {
-                sb.append(',');
-            }
-        }
-        return sb.toString();
+    
+    
+    // Driver code
+    public static void main(String[] args)
+    {
+        int m = 30, n = 35;
+        System.out.println(minimumSquare(m, n));
     }
 }

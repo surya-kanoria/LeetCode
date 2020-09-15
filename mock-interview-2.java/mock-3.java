@@ -24,7 +24,7 @@ class Solution {
         }
         return res;
     }
-
+    
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         Integer[] N = getIntegerArray(in.next());

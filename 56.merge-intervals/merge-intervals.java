@@ -6,7 +6,7 @@ class Solution {
         }
 
         List<int[]> merged = new ArrayList<>();
-        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        Arrays.sort(intervals);
 
         int start = intervals[0][0];
         int end = intervals[0][1];

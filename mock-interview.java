@@ -1,46 +1,42 @@
-/**
- * Definition for a binary tree node. public class TreeNode { int val; TreeNode
- * left; TreeNode right; TreeNode(int x) { val = x; } }
- */
+
+class TrieNode {
+    public TrieNode[] children;
+    public boolean isWord;
+
+    public TrieNode() {
+        children = new TrieNode[26];
+        isWord = false;
+    }
+}
+
 class Solution {
-    int min = Integer.MAX_VALUE;
-    int nodeValue = -1;
+    public List<String> findWords(char[][] board, String[] words) {
 
-    public int findClosestLeaf(TreeNode root, int k) {
-        parentDistance(root, k);
-        return nodeValue;
     }
 
-    private int parentDistance(TreeNode node, int k) {
-        if (node == null) {
-            return Integer.MAX_VALUE;
-        }
-        if (node.val == k) {
-            childDistance(node, 0);
-            return 0;
-        }
-        int left = parentDistance(node.left, k);
-        if (left != Integer.MAX_VALUE) {
-            childDistance(node.right, left + 2);
-        }
-        int right = parentDistance(node.right, k);
-        if (right != Integer.MAX_VALUE) {
-            childDistance(node.left, right + 2);
-        }
-        return Math.min(left, right);
+    private int getIndex(char ch) {
+        return ch - 'a';
     }
 
-    private void childDistance(TreeNode node, int currentLevel) {
-        if (node == null) {
+    private TrieNode[] addWords(String[] words) {
+        TrieNode trie = new TrieNode();
+        for (String word : words) {
+            TrieNode temp = trie;
+            for (i = 0; i < word.length(); i++) {
+                int index = getIndex(word.charAt(i));
+                if (temp.children[index] == null) {
+                    temp.children[index] = new TrieNode();
+                }
+                temp = temp.childrenp[index];
+            }
+            temp.isWord = true;
+        }
+    }
+
+    private void DFS(char[][] board, int row, int col, TrieNode trie, List<String> words, boolean[][] visited, String currentWord) {
+        if (row < 0 || row >= board.length || col < 0 || col >= board[0].length || visited[row][col]) {
             return;
         }
-        if (node.left == null && node.right == null) {
-            if (currentLevel < min) {
-                min = currentLevel;
-                nodeValue = node.val;
-            }
-        }
-        childDistance(node.left, currentLevel + 1);
-        childDistance(node.right, currentLevel + 1);
+        visited[row][col] = true;
     }
 }
